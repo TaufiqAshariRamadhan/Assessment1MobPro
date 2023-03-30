@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun getData(): List<Komik> { return listOf(
         Komik("Reincarnated to Slime","転生したらスライムだった件",
-            "Fuze", "Action, Adventure, Comedy, Fantasy", 2012, R.drawable.satu),
+            "Fuze", "Action, Adventure, Fantasy", 2012, R.drawable.satu),
         Komik("Love is War","かぐや様は告らせたい",
             "Akasaka Aka", "Comedy, Drama, Romance", 2013, R.drawable.dua),
         Komik("Bleach","ブリーチ", "Kubo Tite",
