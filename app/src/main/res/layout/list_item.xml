@@ -6,37 +6,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:src="@drawable/satu" />
+
     <TextView
         android:id="@+id/judul"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:fontFamily="@font/barrio"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintStart_toEndOf="@id/imageView"
         tools:text="Tomie" />
     <TextView
         android:id="@+id/romaji"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@id/author"
         app:layout_constraintStart_toStartOf="@+id/judul"
-        app:layout_constraintTop_toBottomOf="@+id/judul"
+        app:layout_constraintTop_toBottomOf="@+id/guideline"
         tools:text="TomTomTom" />
 
     <TextView
         android:id="@+id/author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="@id/genre"
         app:layout_constraintStart_toStartOf="@+id/judul"
-        app:layout_constraintTop_toBottomOf="@+id/romaji"
+        app:layout_constraintTop_toBottomOf="@+id/guideline"
         tools:text="Junji Ito" />
 
     <TextView
@@ -60,5 +69,12 @@
         app:layout_constraintStart_toStartOf="@+id/genre"
         app:layout_constraintTop_toBottomOf="@+id/genre"
         tools:text="2012" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

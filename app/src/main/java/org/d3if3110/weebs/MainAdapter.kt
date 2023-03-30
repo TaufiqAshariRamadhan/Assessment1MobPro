@@ -16,6 +16,7 @@ class MainAdapter(private val data: List<Komik>) :
             author.text = komik.author
             genre.text = komik.genre
             tahun.text = komik.tahun.toString()
+            imageView.setImageResource(komik.imageResId)
         }
     }
 
