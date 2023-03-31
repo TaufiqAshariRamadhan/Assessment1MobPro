@@ -8,13 +8,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
+import org.d3if3110.weebs.databinding.ActivityMainBinding
 
 class Introd : AppCompatActivity() {
     companion object {
         var NAMA = "nama"
     }
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_introd)
         val klik = findViewById<Button>(R.id.button)
         val klak = findViewById<Button>(R.id.next)
