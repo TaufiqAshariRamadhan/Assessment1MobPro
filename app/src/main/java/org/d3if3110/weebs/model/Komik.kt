@@ -1,4 +1,4 @@
-package org.d3if3110.weebs
+package org.d3if3110.weebs.model
 
 data class Komik(
     val judul: String,

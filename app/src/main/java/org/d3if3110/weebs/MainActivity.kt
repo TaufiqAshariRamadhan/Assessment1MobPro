@@ -1,15 +1,11 @@
 package org.d3if3110.weebs
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import org.d3if3110.weebs.databinding.ActivityMainBinding
+import org.d3if3110.weebs.model.Komik
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

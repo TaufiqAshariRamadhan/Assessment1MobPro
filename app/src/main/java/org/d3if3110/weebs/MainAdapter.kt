@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.d3if3110.weebs.databinding.ListItemBinding
+import org.d3if3110.weebs.model.Komik
 
 class MainAdapter(private val data: List<Komik>) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
