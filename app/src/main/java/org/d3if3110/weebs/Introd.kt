@@ -8,27 +8,25 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
+import org.d3if3110.weebs.databinding.ActivityIntrodBinding
 import org.d3if3110.weebs.databinding.ActivityMainBinding
 
 class Introd : AppCompatActivity() {
     companion object {
         var NAMA = "nama"
     }
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityIntrodBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_introd)
-        val klik = findViewById<Button>(R.id.button)
-        val klak = findViewById<Button>(R.id.next)
 
-        klik.setOnClickListener {
-            val messageTextView = findViewById<TextView>(R.id.nama_input)
-            var nm_out = findViewById<TextView>(R.id.textView)
-            var nama = messageTextView.text.toString()
-            nm_out.text = "Namae wa, " + nama + " desu"
+        binding = ActivityIntrodBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.button.setOnClickListener {
+            var nama = binding.namaInput.text.toString()
+            binding.textView.text = "Namae wa, " + nama + " desu"
         }
-        klak.setOnClickListener {
+        binding.next.setOnClickListener {
             val klak = Intent(this@Introd, MainActivity::class.java)
             startActivity(klak)
         }
