@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.d3if3110.weebs.databinding.ListItemBinding
+import org.d3if3110.weebs.db.User
 import org.d3if3110.weebs.model.Komik
 
-class MainAdapter(private val data: List<Komik>) :
-    RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
     class ViewHolder(
         private val binding: ListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -19,6 +19,12 @@ class MainAdapter(private val data: List<Komik>) :
             tahun.text = komik.tahun.toString()
             imageView.setImageResource(komik.imageResId)
         }
+    }
+
+    private val data = mutableListOf<Komik>()
+    fun updateData(newData: List<Komik>) { data.clear()
+        data.addAll(newData)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

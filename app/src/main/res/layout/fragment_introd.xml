@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DC143C"
-    tools:context=".Introd">
+    android:background="#DC143C">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nama_hint"
@@ -50,6 +49,22 @@
             android:text="No items to display"
             android:textStyle="bold"
             />
+
+        <Button
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bagikan"
+            android:backgroundTint="#F08080"
+            />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/buttonGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:constraint_referenced_ids="shareButton"
+            tools:visibility="visible" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

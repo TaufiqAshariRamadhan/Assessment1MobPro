@@ -2,39 +2,25 @@ package org.d3if3110.weebs
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
-import org.d3if3110.weebs.databinding.ActivityMainBinding
-import org.d3if3110.weebs.model.Komik
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-    companion object {
-        const val EXTRA_MESSAGE = "com.example.myapp.MESSAGE"
-    }
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+    private lateinit var navController: NavController
+
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        //val messageTextView = findViewById<TextView>(R.id.messageTextView)
-        val message = intent.getStringExtra(EXTRA_MESSAGE)
-        //messageTextView.text = message
-        with(binding.recyclerView) {
-            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
-            adapter = MainAdapter(getData())
-            setHasFixedSize(true)
-        }
+        setContentView(R.layout.activity_main)
+
+        navController = findNavController(R.id.myNavHostFragment)
+        NavigationUI.setupActionBarWithNavController(this, navController)
     }
-    private fun getData(): List<Komik> { return listOf(
-        Komik("Reincarnated to Slime","転生したらスライムだった件",
-            "Fuze", "Action, Adventure, Fantasy", 2012, R.drawable.satu),
-        Komik("Love is War","かぐや様は告らせたい",
-            "Akasaka Aka", "Comedy, Drama, Romance", 2013, R.drawable.dua),
-        Komik("Bleach","ブリーチ", "Kubo Tite",
-            "Action, Adventure, Shonen", 2006, R.drawable.empat),
-        Komik("Tomie","富江", "Junji Ito",
-            "Pyschological Horror, Supernatural", 2014, R.drawable.tiga),
-    )
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp()
     }
 
 }
