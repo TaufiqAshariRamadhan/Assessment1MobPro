@@ -1,15 +1,21 @@
 package org.d3if3110.weebs.ui
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.d3if3110.weebs.R
 import org.d3if3110.weebs.model.Komik
 import org.d3if3110.weebs.network.KomikApi
+import org.d3if3110.weebs.network.UpdateWorker
+import java.util.concurrent.TimeUnit
 
 class MainViewModel : ViewModel() {
 
@@ -34,4 +40,13 @@ class MainViewModel : ViewModel() {
 
     fun getData(): LiveData<List<Komik>> = data
     fun getStatus(): LiveData<KomikApi.ApiStatus> = status
+    fun scheduleUpdater(app: Application) {
+        val request = OneTimeWorkRequestBuilder<UpdateWorker>()
+            .setInitialDelay(1, TimeUnit.MINUTES)
+            .build()
+        WorkManager.getInstance(app).enqueueUniqueWork(
+            UpdateWorker.WORK_NAME, ExistingWorkPolicy.REPLACE,
+            request
+        ) }
+
 }
