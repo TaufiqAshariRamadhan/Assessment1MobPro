@@ -28,7 +28,7 @@ object KomikApi {
         retrofit.create(HewanApiService::class.java)
     }
     fun getKomikUrl(imageId: String): String {
-        return "$BASE_URL$imageId.jpg"
+        return "$BASE_URL$imageId.png"
     }
     enum class ApiStatus { LOADING, SUCCESS, FAILED }
 }
