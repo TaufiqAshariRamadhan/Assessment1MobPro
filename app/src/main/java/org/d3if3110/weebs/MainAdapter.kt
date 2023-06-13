@@ -3,9 +3,11 @@ package org.d3if3110.weebs
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import org.d3if3110.weebs.databinding.ListItemBinding
 import org.d3if3110.weebs.db.User
 import org.d3if3110.weebs.model.Komik
+import org.d3if3110.weebs.network.KomikApi
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
     class ViewHolder(
@@ -17,7 +19,10 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
             author.text = komik.author
             genre.text = komik.genre
             tahun.text = komik.tahun.toString()
-            imageView.setImageResource(komik.imageResId)
+            Glide.with(imageView.context)
+                .load(KomikApi.getHewanUrl(komik.imageId))
+                .error(R.drawable.ic_baseline_broken_image_24)
+                .into(imageView)
         }
     }
 

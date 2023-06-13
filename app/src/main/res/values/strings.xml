@@ -20,4 +20,9 @@
     <string name="hapus">Hapus</string>
     <string name="batal">Batal</string>
     <string name="switch_layout">Ubah tampilan</string>
+    <string name="koneksi_error">Koneksi error</string>
+    <string name="channel_name">Updater</string>
+    <string name="channel_desc">Update list komik terbaru</string>
+    <string name="notif_title">Ada Komik baru nih</string>
+    <string name="notif_text">Baca sekarang biar ngga kena spoiler temen...</string>
 </resources>

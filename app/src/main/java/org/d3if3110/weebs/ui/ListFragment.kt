@@ -1,7 +1,12 @@
 package org.d3if3110.weebs.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,12 +18,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
+import org.d3if3110.weebs.MainActivity
 import org.d3if3110.weebs.MainAdapter
 import org.d3if3110.weebs.R
 import org.d3if3110.weebs.data.SettingDataStore
 import org.d3if3110.weebs.data.dataStore
 import org.d3if3110.weebs.databinding.FragmentMainBinding
-import org.d3if3110.weebs.model.Komik
+import org.d3if3110.weebs.network.ApiStatus
+
 
 class ListFragment : Fragment() {
     private val layoutDataStore: SettingDataStore by lazy {
@@ -56,6 +63,9 @@ class ListFragment : Fragment() {
         viewModel.getData().observe(viewLifecycleOwner) {
             myAdapter.updateData(it)
         }
+        viewModel.getStatus().observe(viewLifecycleOwner) { updateProgress(it)
+        }
+        viewModel.scheduleUpdater(requireActivity().application)
         //val messageTextView = findViewById<TextView>(R.id.messageTextView)
         //val message = context.getStringExtra(EXTRA_MESSAGE)
         //messageTextView.text = message
@@ -70,6 +80,21 @@ class ListFragment : Fragment() {
             activity?.invalidateOptionsMenu()
         }
     }
+
+    private fun updateProgress(status: ApiStatus) { when (status) {
+        ApiStatus.LOADING -> {
+            binding.progressBar.visibility = View.VISIBLE
+        }
+        ApiStatus.SUCCESS -> {
+            binding.progressBar.visibility = View.GONE
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestNotificationPermission()
+            }
+        }
+        ApiStatus.FAILED -> {
+            binding.progressBar.visibility = View.GONE
+            binding.networkError.visibility = View.VISIBLE }
+    } }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -115,6 +140,17 @@ class ListFragment : Fragment() {
     else
         R.drawable.ic_baseline_view_list_24
         menuItem.icon = ContextCompat.getDrawable(requireContext(), iconId)
+    }
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun requestNotificationPermission() {
+        if (ActivityCompat.checkSelfPermission( requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS ) !=
+            PackageManager.PERMISSION_GRANTED
+        ){ ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+            MainActivity.PERMISSION_REQUEST_CODE
+        ) }
     }
 
 

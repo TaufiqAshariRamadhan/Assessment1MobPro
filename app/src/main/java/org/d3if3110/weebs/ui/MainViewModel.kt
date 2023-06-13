@@ -1,28 +1,51 @@
 package org.d3if3110.weebs.ui
 
+import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.d3if3110.weebs.R
+import androidx.lifecycle.viewModelScope
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.d3if3110.weebs.model.Komik
+import org.d3if3110.weebs.network.ApiStatus
+import org.d3if3110.weebs.network.KomikApi
+import org.d3if3110.weebs.network.UpdateWorker
+import java.util.concurrent.TimeUnit
 
 class MainViewModel : ViewModel() {
 
     private val data = MutableLiveData<List<Komik>>()
+    private val status = MutableLiveData<ApiStatus>()
     init {
-        data.value = initData()
+        retrieveData()
     }
 
-    private fun initData(): List<Komik> { return listOf(
-        Komik("Reincarnated to Slime","転生したらスライムだった件",
-            "Fuze", "Action, Adventure, Fantasy", 2012, R.drawable.satu),
-        Komik("Love is War","かぐや様は告らせたい",
-            "Akasaka Aka", "Comedy, Drama, Romance", 2013, R.drawable.dua),
-        Komik("Bleach","ブリーチ", "Kubo Tite",
-            "Action, Adventure, Shonen", 2006, R.drawable.empat),
-        Komik("Tomie","富江", "Junji Ito",
-            "Pyschological Horror, Supernatural", 2014, R.drawable.tiga),
-    )
+    private fun retrieveData() { viewModelScope.launch (Dispatchers.IO) {
+        status.postValue(ApiStatus.LOADING)
+        try {
+            data.postValue(KomikApi.service.getKomik())
+            status.postValue(ApiStatus.SUCCESS)
+        } catch (e: Exception) {
+            Log.d("MainViewModel", "Failure: ${e.message}")
+            status.postValue(ApiStatus.FAILED)
+        }
+    }
     }
     fun getData(): LiveData<List<Komik>> = data
+    fun getStatus(): LiveData<ApiStatus> = status
+    fun scheduleUpdater(app: Application) {
+        val request = OneTimeWorkRequestBuilder<UpdateWorker>()
+            .setInitialDelay(1, TimeUnit.MINUTES)
+            .build()
+        WorkManager.getInstance(app).enqueueUniqueWork(
+            UpdateWorker.WORK_NAME,
+            ExistingWorkPolicy.REPLACE,
+            request
+        ) }
+
 }
