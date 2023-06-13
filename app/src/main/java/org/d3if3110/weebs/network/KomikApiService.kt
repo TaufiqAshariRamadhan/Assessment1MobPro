@@ -7,28 +7,28 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 
-private const val BASE_URL = "https://raw.githubusercontent.com/" +
-        "TaufiqAshariRamadhan/Assessment1MobPro/static-api/"
+private const val BASE_URL =
+    "https://raw.githubusercontent.com/" + "TaufiqAshariRamadhan/Assessment1MobPro/static-api/"
 
 private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
+    .add(KotlinJsonAdapterFactory()) .build()
 
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(BASE_URL)
     .build()
-interface KomikApiService {
+
+interface HewanApiService {
     @GET("static-api.json")
     suspend fun getKomik(): List<Komik>
-    }
-object KomikApi {
-    val service: KomikApiService by lazy {
-        retrofit.create(KomikApiService::class.java)
-    }
-
-    fun getHewanUrl(imageId: String): String {
-        return "$BASE_URL$imageId.png"
-    }
 }
-enum class ApiStatus { LOADING, SUCCESS, FAILED }
+
+object KomikApi {
+    val service: HewanApiService by lazy {
+        retrofit.create(HewanApiService::class.java)
+    }
+    fun getKomikUrl(imageId: String): String {
+        return "$BASE_URL$imageId.jpg"
+    }
+    enum class ApiStatus { LOADING, SUCCESS, FAILED }
+}

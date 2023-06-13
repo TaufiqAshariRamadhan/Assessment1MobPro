@@ -20,7 +20,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
             genre.text = komik.genre
             tahun.text = komik.tahun.toString()
             Glide.with(imageView.context)
-                .load(KomikApi.getHewanUrl(komik.imageId))
+                .load(KomikApi.getKomikUrl(komik.imageId))
                 .error(R.drawable.ic_baseline_broken_image_24)
                 .into(imageView)
         }

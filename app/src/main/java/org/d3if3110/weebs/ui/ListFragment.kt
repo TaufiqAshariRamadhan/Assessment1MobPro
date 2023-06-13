@@ -1,12 +1,7 @@
 package org.d3if3110.weebs.ui
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.*
-import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -18,14 +13,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
-import org.d3if3110.weebs.MainActivity
 import org.d3if3110.weebs.MainAdapter
 import org.d3if3110.weebs.R
 import org.d3if3110.weebs.data.SettingDataStore
 import org.d3if3110.weebs.data.dataStore
 import org.d3if3110.weebs.databinding.FragmentMainBinding
-import org.d3if3110.weebs.network.ApiStatus
-
+import org.d3if3110.weebs.model.Komik
+import org.d3if3110.weebs.network.KomikApi
 
 class ListFragment : Fragment() {
     private val layoutDataStore: SettingDataStore by lazy {
@@ -63,9 +57,9 @@ class ListFragment : Fragment() {
         viewModel.getData().observe(viewLifecycleOwner) {
             myAdapter.updateData(it)
         }
-        viewModel.getStatus().observe(viewLifecycleOwner) { updateProgress(it)
+        viewModel.getStatus().observe(viewLifecycleOwner) {
+            updateProgress(it)
         }
-        viewModel.scheduleUpdater(requireActivity().application)
         //val messageTextView = findViewById<TextView>(R.id.messageTextView)
         //val message = context.getStringExtra(EXTRA_MESSAGE)
         //messageTextView.text = message
@@ -79,19 +73,17 @@ class ListFragment : Fragment() {
             setLayout()
             activity?.invalidateOptionsMenu()
         }
+
     }
 
-    private fun updateProgress(status: ApiStatus) { when (status) {
-        ApiStatus.LOADING -> {
+    private fun updateProgress(status: KomikApi.ApiStatus) { when (status) {
+        KomikApi.ApiStatus.LOADING -> {
             binding.progressBar.visibility = View.VISIBLE
         }
-        ApiStatus.SUCCESS -> {
+        KomikApi.ApiStatus.SUCCESS -> {
             binding.progressBar.visibility = View.GONE
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                requestNotificationPermission()
-            }
         }
-        ApiStatus.FAILED -> {
+        KomikApi.ApiStatus.FAILED -> {
             binding.progressBar.visibility = View.GONE
             binding.networkError.visibility = View.VISIBLE }
     } }
@@ -114,7 +106,7 @@ class ListFragment : Fragment() {
         when(item.itemId) {
             R.id.menu_histori -> {
                 findNavController().navigate(
-                R.id.action_listFragment_to_historiFragment
+                    R.id.action_listFragment_to_historiFragment
                 )
                 return true
             }
@@ -136,21 +128,10 @@ class ListFragment : Fragment() {
 
     private fun setIcon(menuItem: MenuItem) {
         val iconId = if (isLinearLayout)
-        R.drawable.ic_baseline_grid_view_24
-    else
-        R.drawable.ic_baseline_view_list_24
+            R.drawable.ic_baseline_grid_view_24
+        else
+            R.drawable.ic_baseline_view_list_24
         menuItem.icon = ContextCompat.getDrawable(requireContext(), iconId)
-    }
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun requestNotificationPermission() {
-        if (ActivityCompat.checkSelfPermission( requireContext(),
-                Manifest.permission.POST_NOTIFICATIONS ) !=
-            PackageManager.PERMISSION_GRANTED
-        ){ ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-            MainActivity.PERMISSION_REQUEST_CODE
-        ) }
     }
 
 
